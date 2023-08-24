@@ -54,6 +54,7 @@ public class HomeController {
                 userService.saveUser(u);
             }
         }
+
         return "login";
     }
 
