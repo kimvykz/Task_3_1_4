@@ -16,6 +16,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class UserController {
 
     @Autowired
     UserController (UserService userService,
-                    AuthenticationManager authenticationManager){
+                    AuthenticationManager authenticationManager
+                    ){
         this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
@@ -72,6 +74,7 @@ public class UserController {
     @PatchMapping ("/user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         user.setId(id);
+        System.out.println("test - UserControlle.updateUser ------" + id + " +++++ " + user.toString());
         return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
     }
 

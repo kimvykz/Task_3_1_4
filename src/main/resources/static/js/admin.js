@@ -39,9 +39,8 @@ function userToHTML({id, firstName, lastName, age, email, roles}) {
         <td>${email}</td>
         <td>[${rolesList}]</td>
         <td>
-        <button id="btnEditUser${id}" class="btn btn-success my-1">Edit</button>
         <button type="button" class="btn btn-success my-1" data-bs-toggle="modal" data-bs-target="#editModalConfirm" onclick="fillEditModalById(${id})">
-            Edit Modal
+            Edit
         </button>
         </td>
         <td>
@@ -205,7 +204,36 @@ editModalElement.addEventListener('hidden.bs.modal', function () {getAllUsers()}
 
 
 async function editUser(id){
+    const firstName = document.getElementById('inputEditFirstName').value;
+    const lastName = document.getElementById('inputEditLastName').value;
+    const age = document.getElementById('inputEditAge').value;
+    const email = document.getElementById('inputEditEmail').value;
+    const password = document.getElementById('inputEditPassword').value;
 
+    const rolesSelect = document.getElementById('inputEditRoles');
+    const roles = Array.from(rolesSelect.selectedOptions).map(option => option.value);
+
+    const user = {
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+        email: email,
+        password: password,
+        roles: roles
+    };
+
+    try{
+        const response = await fetch(url_user + `/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        });
+    }
+    catch (error){
+        console.error('Erroe-editUser: ', error);
+    }
 }
 
 //filling edit modal form
@@ -248,6 +276,10 @@ async function fillEditModalById(id){
             <div class="mb-3">
                 <label for="inputEditEmail" class="form-label">E-mail</label>
                 <input type="email" class="form-control" id="inputEditEmail" placeholder="example@gmail.com" value="${user.email}" >
+            </div>
+            <div class="mb-3">
+                <label for="inputEditPassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputEditPassword" placeholder="password" value="${user.password}">
             </div>
             <div class="mb-3">
                 <label for="inputEditRoles" class="form-label">Roles</label>

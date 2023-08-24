@@ -34,11 +34,6 @@ public class UserServiceImpl implements UserService{
     @Override
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        if (user.getRoles().size() != 0) {
-//            user.setRoles(roleRepository.saveAll(user.getRoles()));
-//
-//        }
-
         return userRepository.save(user);
     }
 
@@ -58,6 +53,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User updateUser(User user) {
+        User oldUser = this.getUserById(user.getId());
+        if(!oldUser.getPassword().equals(user.getPassword())){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return userRepository.save(user);
     }
 }
