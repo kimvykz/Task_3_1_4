@@ -64,17 +64,19 @@ public class UserController {
         return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/user/email")
+    public ResponseEntity<User> getUserByEmail(@RequestParam("email") String email){
+        return new ResponseEntity<User>(userService.getUserByEmail(email), HttpStatus.OK);
+    }
+
     @PostMapping("/user")
     public ResponseEntity<User> saveUser(@Valid @RequestBody User user) {
-        System.out.println("test - UserController.saveUser - " + user.toString());
-
         return new ResponseEntity<User>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @PatchMapping ("/user/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         user.setId(id);
-        System.out.println("test - UserControlle.updateUser ------" + id + " +++++ " + user.toString());
         return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
     }
 

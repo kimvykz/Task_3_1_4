@@ -7,11 +7,10 @@ import kr.habsida.Task_3_1_4.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +39,7 @@ public class HomeController {
         );
 
     private UserService userService;
+    private UserDetails userDetails;
 
     @Autowired
     public void getUserService(UserService userService){
@@ -62,6 +62,7 @@ public class HomeController {
     public String showUserPage(ModelMap model, Authentication authentication) {
         model.put("authName", authentication.getName());
         model.put("authRole", AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
+
 
         return "user";
     }

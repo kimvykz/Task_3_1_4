@@ -4,6 +4,7 @@ import kr.habsida.Task_3_1_4.model.User;
 import kr.habsida.Task_3_1_4.repository.RoleRepository;
 import kr.habsida.Task_3_1_4.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +59,10 @@ public class UserServiceImpl implements UserService{
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

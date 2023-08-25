@@ -1,15 +1,17 @@
 const url_user = 'http://localhost:8080/api/user';
 
 setTitle();
-async function getAllUsers(){
-    const res = await fetch(url_user);
-    const users = await res.json();
-    console.log(users);
-    
-    users.forEach(user => userToHTML(user));
+async function getUserByEmail(){
+    const userEmailElement = document.getElementById("userEmail");
+    const userEmail = userEmailElement.textContent;
+
+    const res = await fetch(url_user + `/email?email=${userEmail}`);
+
+    const user = await res.json();
+    userToHTML(user);
 }
 
-window.addEventListener('DOMContentLoaded', getAllUsers);
+window.addEventListener('DOMContentLoaded', getUserByEmail);
 
 function setTitle(){
     const pageTitle = document.getElementById('mainPageTitle');
@@ -33,19 +35,3 @@ function userToHTML({id, firstName, lastName, age, email, roles}) {
     </tr>   
     `);
 }
-
-
-// function userToHTML(users){
-//     const usersList = document.get
-// }
-
-// async 
-// fetch('http://localhost:8080/user')
-//         .then(response => response.json())
-//         .then(data => {
-//             // Делайте что-то с полученными данными, например, вставьте их в DOM
-//             console.log(data);
-//         })
-//         .catch(error => {
-//             console.error('Ошибка при получении данных:', error);
-//         });

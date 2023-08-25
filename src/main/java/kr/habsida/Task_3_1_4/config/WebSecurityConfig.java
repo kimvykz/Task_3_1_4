@@ -38,7 +38,7 @@ public class WebSecurityConfig  {
             .authorizeHttpRequests(authConfig -> {
             authConfig.requestMatchers( "/login").permitAll();
             authConfig.requestMatchers( "/user", "/js/**").authenticated();
-            authConfig.requestMatchers(HttpMethod.GET, "/api/user").hasAnyAuthority("USER", "ADMIN")
+            authConfig.requestMatchers(HttpMethod.GET, "/api/user", "/api/user/email/**").hasAnyAuthority("USER", "ADMIN")
                     .requestMatchers("/admin", "/api/**").hasAuthority("ADMIN");
             })
 
